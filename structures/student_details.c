@@ -2,14 +2,7 @@
 Store and print fake details about a student with structures.
  */
 #include <stdio.h>
-
-typedef struct
-{
-    unsigned rollNo;
-    char *name;
-    unsigned age;
-    unsigned marks;
-} Student;
+#include "student.h"
 
 int main(void)
 {

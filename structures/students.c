@@ -5,14 +5,7 @@ roll number 2.
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
-typedef struct
-{
-    unsigned rollNo;
-    char *name;
-    unsigned age;
-    unsigned marks;
-} Student;
+#include "student.h"
 
 int main(void)
 {
@@ -30,7 +23,7 @@ int main(void)
         students[i].marks = 60 + rand() % 30;
     }
 
-    Student *student2 = students + 2;
+    Student *student2 = students + 1;
     puts("Details for student 2");
     printf("%15s: %u\n", "Roll Number", student2->rollNo);
     printf("%15s: %s\n", "Name", students->name);
