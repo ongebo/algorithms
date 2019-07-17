@@ -8,10 +8,16 @@
 #define TRUE 1
 #define FALSE 0
 
+typedef struct
+{
+    int feet;
+    int inches;
+} Distance;
+
 void readLine(char *, char *);
 int inputInvalid(char *);
 void addDistances(char *, const char *, const char *);
-void extractUnits(int *, const char *);
+void extractUnits(Distance *, const char *);
 
 int main(void)
 {
@@ -56,16 +62,16 @@ int inputInvalid(char *input)
 
 void addDistances(char *totalDistance, const char *distance1, const char *distance2)
 {
-    int result1[3];
-    int result2[3];
-    extractUnits(result1, distance1);
-    extractUnits(result2, distance2);
-    int totalFeet = result1[0] + result2[0];
-    int totalInches = result1[1] + result2[1];
+    Distance result1;
+    Distance result2;
+    extractUnits(&result1, distance1);
+    extractUnits(&result2, distance2);
+    int totalFeet = result1.feet + result2.feet;
+    int totalInches = result1.inches + result2.inches;
     sprintf(totalDistance, "%d'%d\"", totalFeet, totalInches);
 }
 
-void extractUnits(int *result, const char *distance)
+void extractUnits(Distance *result, const char *distance)
 {
     char feet[10];
     char inches[10];
@@ -98,7 +104,6 @@ void extractUnits(int *result, const char *distance)
         }
     }
 
-    result[0] = atoi(feet);
-    result[1] = atoi(inches);
-    result[2] = '\0';
+    result->feet = atoi(feet);
+    result->inches = atoi(inches);
 }
