@@ -1,0 +1,1 @@
+void readLine(char *, char *);

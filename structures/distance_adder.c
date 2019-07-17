@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#include "../util/input.h"
+
 #define TRUE 1
 #define FALSE 0
 
@@ -31,19 +33,6 @@ int main(void)
     addDistances(totalDistance, distance1, distance2);
     puts("");
     printf("The total distance is: %s\n", totalDistance);
-}
-
-void readLine(char *input, char *prompt)
-{
-    printf("%s", prompt);
-    unsigned pointerPosition = 0;
-    char c = getchar();
-    while (c != '\n')
-    {
-        input[pointerPosition++] = c;
-        c = getchar();
-    }
-    input[pointerPosition] = '\0';
 }
 
 int inputInvalid(char *input)
