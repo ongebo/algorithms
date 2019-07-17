@@ -7,7 +7,7 @@
 typedef struct
 {
     unsigned rollNumber;
-    char *name;
+    char name[50];
     unsigned chemMarks;
     unsigned mathsMarks;
     unsigned phyMarks;
@@ -15,6 +15,7 @@ typedef struct
 
 void getStudentMarks(Mark *, int);
 int stringInvalid(char *rollNumber, char *pattern);
+void printMarks(const Mark *, int);
 
 int main(void)
 {
@@ -47,12 +48,15 @@ int main(void)
     puts("");
     puts("5th Student");
     getStudentMarks(marks, 4);
+
+    // Print the student marks.
+    puts("");
+    printMarks(marks, 5);
 }
 
 void getStudentMarks(Mark *marks, int number)
 {
     char rollNumber[10];
-    char name[50];
     char chemMarks[50];
     char mathsMarks[50];
     char phyMarks[50];
@@ -63,10 +67,10 @@ void getStudentMarks(Mark *marks, int number)
         readLine(rollNumber, "Enter a valid roll number: ");
     }
 
-    readLine(name, "Student Name: ");
-    while (stringInvalid(name, "^[a-zA-Z]{3,30}( [a-zA-Z]{3,30})*$"))
+    readLine(marks[number].name, "Student Name: ");
+    while (stringInvalid(marks[number].name, "^[a-zA-Z]{3,30}( [a-zA-Z]{3,30})*$"))
     {
-        readLine(name, "Enter a valid student name: ");
+        readLine(marks[number].name, "Enter a valid student name: ");
     }
 
     readLine(chemMarks, "Chemistry Marks: ");
@@ -88,7 +92,6 @@ void getStudentMarks(Mark *marks, int number)
     }
 
     marks[number].rollNumber = atoi(rollNumber);
-    marks[number].name = name;
     marks[number].chemMarks = atoi(chemMarks);
     marks[number].mathsMarks = atoi(mathsMarks);
     marks[number].phyMarks = atoi(phyMarks);
@@ -104,4 +107,19 @@ int stringInvalid(char *string, char *pattern)
         exit(1);
     }
     return regexec(&regex, string, 0, NULL, 0);
+}
+
+void printMarks(const Mark *marks, int numberOfMarks)
+{
+    puts("STUDENT MARKS\n");
+
+    size_t c;
+    for (c = 0; c < numberOfMarks; c++)
+    {
+        printf("%s:\n", marks[c].name);
+        printf("Chemistry %u%s\n", marks[c].chemMarks, "%");
+        printf("Maths %u%s\n", marks[c].chemMarks, "%");
+        printf("Physics %u%s\n", marks[c].chemMarks, "%");
+        puts("");
+    }
 }
