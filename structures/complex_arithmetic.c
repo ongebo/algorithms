@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <regex.h>
 #include <string.h>
+#include <math.h>
 
 #include "../util/input.h"
 
@@ -50,6 +51,7 @@ int main(void)
     printSum(&firstNumber, &secondNumber);
     printDifference(&firstNumber, &secondNumber);
     printProduct(&firstNumber, &secondNumber);
+    puts("");
 }
 
 int inputInvalid(char *string, char *pattern)
@@ -106,4 +108,22 @@ void printDifference(ComplexNumber *firstNumber, ComplexNumber *secondNumber)
 
 void printProduct(ComplexNumber *firstNumber, ComplexNumber *secondNumber)
 {
+    double magnitude1 = sqrt(
+        firstNumber->realPart * firstNumber->realPart +
+        firstNumber->imaginaryPart * firstNumber->imaginaryPart);
+    double magnitude2 = sqrt(
+        secondNumber->realPart * secondNumber->realPart +
+        secondNumber->imaginaryPart * secondNumber->imaginaryPart);
+    double angle1 = atan(firstNumber->imaginaryPart / firstNumber->realPart);
+    double angle2 = atan(secondNumber->imaginaryPart / secondNumber->realPart);
+
+    double productMagnitude = magnitude1 * magnitude2;
+    double productAngle = angle1 + angle2;
+    double productReal = productMagnitude * cos(productAngle);
+    double productImaginary = productMagnitude * sin(productAngle);
+
+    printf("(%d + %di) x (%d + %di) = (%f + %fi)\n",
+           firstNumber->realPart, firstNumber->imaginaryPart,
+           secondNumber->realPart, secondNumber->imaginaryPart,
+           productReal, productImaginary);
 }
