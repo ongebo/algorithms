@@ -1,17 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <regex.h>
+#include <string.h>
 
 #include "../util/input.h"
 
 #define INPUT_SIZE 20
 
+typedef struct
+{
+    int realPart;
+    int imaginaryPart;
+} ComplexNumber;
+
 int inputInvalid(char *, char *);
+void extractParts(ComplexNumber *, char *);
+void printSum(ComplexNumber *, ComplexNumber *);
+void printDifference(ComplexNumber *, ComplexNumber *);
+void printProduct(ComplexNumber *, ComplexNumber *);
 
 int main(void)
 {
-    char firstNumber[INPUT_SIZE];
-    char secondNumber[INPUT_SIZE];
+    char firstInput[INPUT_SIZE];
+    char secondInput[INPUT_SIZE];
+    ComplexNumber firstNumber;
+    ComplexNumber secondNumber;
     char *inputPattern =
         "^(([-,+]?[0-9]{1,6})|([-,+]?[0-9]{1,6} [-,+] [-,+]?[0-9]{1,6}i))$";
 
@@ -19,17 +32,24 @@ int main(void)
     puts("Welcome to Complex Number Arithmetic!");
     puts("");
 
-    readLine(firstNumber, "Enter first number: ");
-    while (inputInvalid(firstNumber, inputPattern))
+    readLine(firstInput, "Enter first number: ");
+    while (inputInvalid(firstInput, inputPattern))
     {
-        readLine(firstNumber, "Enter complex number in rectangular form: ");
+        readLine(firstInput, "Enter complex number in rectangular form (a + bi): ");
     }
     puts("");
-    readLine(secondNumber, "Enter second number: ");
-    while (inputInvalid(secondNumber, inputPattern))
+    readLine(secondInput, "Enter second number: ");
+    while (inputInvalid(secondInput, inputPattern))
     {
-        readLine(secondNumber, "Enter complex number in rectangular form: ");
+        readLine(secondInput, "Enter complex number in rectangular form: ");
     }
+
+    extractParts(&firstNumber, firstInput);
+    extractParts(&secondNumber, secondInput);
+    puts("");
+    printSum(&firstNumber, &secondNumber);
+    printDifference(&firstNumber, &secondNumber);
+    printProduct(&firstNumber, &secondNumber);
 }
 
 int inputInvalid(char *string, char *pattern)
@@ -42,4 +62,48 @@ int inputInvalid(char *string, char *pattern)
         exit(1);
     }
     return regexec(&regex, string, 0, NULL, 0);
+}
+
+void extractParts(ComplexNumber *number, char *userInput)
+{
+    number->realPart = atoi(strtok(userInput, " "));
+    char *sign = strtok(NULL, " ");
+    if (sign == NULL)
+    {
+        // No imaginary part.
+        number->imaginaryPart = 0;
+    }
+    else
+    {
+        int factor = strcmp(sign, "-") == 0 ? -1 : 1;
+        number->imaginaryPart = atoi(strtok(NULL, " ")) * factor;
+    }
+}
+
+void printSum(ComplexNumber *firstNumber, ComplexNumber *secondNumber)
+{
+    int realTotal = firstNumber->realPart + secondNumber->realPart;
+    int imaginaryTotal =
+        firstNumber->imaginaryPart + secondNumber->imaginaryPart;
+
+    printf("(%d + %di) + (%d + %di) = (%d + %di)\n",
+           firstNumber->realPart, firstNumber->imaginaryPart,
+           secondNumber->realPart, secondNumber->imaginaryPart,
+           realTotal, imaginaryTotal);
+}
+
+void printDifference(ComplexNumber *firstNumber, ComplexNumber *secondNumber)
+{
+    int realDiff = firstNumber->realPart - secondNumber->realPart;
+    int imaginaryDiff =
+        firstNumber->imaginaryPart - secondNumber->imaginaryPart;
+
+    printf("(%d + %di) - (%d + %di) = (%d + %di)\n",
+           firstNumber->realPart, firstNumber->imaginaryPart,
+           secondNumber->realPart, secondNumber->imaginaryPart,
+           realDiff, imaginaryDiff);
+}
+
+void printProduct(ComplexNumber *firstNumber, ComplexNumber *secondNumber)
+{
 }
