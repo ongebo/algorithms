@@ -1,19 +1,48 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+#include "util/input.h"
 
 void solveHanoi(unsigned, int, int, int);
+int inputInvalid(char *);
 
 int main(void)
 {
-    unsigned int numberOfDisks;
+    int numberOfDisks;
+    char userInput[20];
 
     puts("*** Welcome to the towers of hanoi solver! ***");
     puts("");
-    printf("%s: ", "Enter the number of disks");
+    readLine(userInput, "Enter the number of disks: ");
+    while (inputInvalid(userInput))
+    {
+        readLine(userInput, "Enter a number from 1 to 50: ");
+    }
 
-    scanf("%u", &numberOfDisks);
+    numberOfDisks = atoi(userInput);
     puts("");
     solveHanoi(numberOfDisks, 0, 1, 2);
     puts("");
+}
+
+// Ensure that the user enters a number from 1 to 50.
+int inputInvalid(char *input)
+{
+    size_t i;
+    for (i = 0; input[i] != '\0'; i++)
+    {
+        if (!isdigit(input[i]))
+        {
+            return 1;
+        }
+    }
+    int numberOfDisks = atoi(input);
+    if (numberOfDisks < 1 || numberOfDisks > 50)
+    {
+        return 1;
+    }
+    return 0;
 }
 
 // Print the steps to solving the towers of hanoi puzzle.
