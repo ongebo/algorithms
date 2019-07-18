@@ -10,15 +10,15 @@
 
 typedef struct
 {
-    int realPart;
-    int imaginaryPart;
+    double realPart;
+    double imaginaryPart;
 } ComplexNumber;
 
 int inputInvalid(char *, char *);
 void extractParts(ComplexNumber *, char *);
 void printSum(ComplexNumber *, ComplexNumber *);
 void printDifference(ComplexNumber *, ComplexNumber *);
-void printProduct(ComplexNumber *, ComplexNumber *);
+void printProduct(const ComplexNumber *, const ComplexNumber *);
 
 int main(void)
 {
@@ -84,11 +84,11 @@ void extractParts(ComplexNumber *number, char *userInput)
 
 void printSum(ComplexNumber *firstNumber, ComplexNumber *secondNumber)
 {
-    int realTotal = firstNumber->realPart + secondNumber->realPart;
-    int imaginaryTotal =
+    double realTotal = firstNumber->realPart + secondNumber->realPart;
+    double imaginaryTotal =
         firstNumber->imaginaryPart + secondNumber->imaginaryPart;
 
-    printf("(%d + %di) + (%d + %di) = (%d + %di)\n",
+    printf("(%f + %fi) + (%f + %fi) = (%f + %fi)\n",
            firstNumber->realPart, firstNumber->imaginaryPart,
            secondNumber->realPart, secondNumber->imaginaryPart,
            realTotal, imaginaryTotal);
@@ -96,17 +96,17 @@ void printSum(ComplexNumber *firstNumber, ComplexNumber *secondNumber)
 
 void printDifference(ComplexNumber *firstNumber, ComplexNumber *secondNumber)
 {
-    int realDiff = firstNumber->realPart - secondNumber->realPart;
-    int imaginaryDiff =
+    double realDiff = firstNumber->realPart - secondNumber->realPart;
+    double imaginaryDiff =
         firstNumber->imaginaryPart - secondNumber->imaginaryPart;
 
-    printf("(%d + %di) - (%d + %di) = (%d + %di)\n",
+    printf("(%f + %fi) - (%f + %fi) = (%f + %fi)\n",
            firstNumber->realPart, firstNumber->imaginaryPart,
            secondNumber->realPart, secondNumber->imaginaryPart,
            realDiff, imaginaryDiff);
 }
 
-void printProduct(ComplexNumber *firstNumber, ComplexNumber *secondNumber)
+void printProduct(const ComplexNumber *firstNumber, const ComplexNumber *secondNumber)
 {
     double magnitude1 = sqrt(
         firstNumber->realPart * firstNumber->realPart +
@@ -114,6 +114,7 @@ void printProduct(ComplexNumber *firstNumber, ComplexNumber *secondNumber)
     double magnitude2 = sqrt(
         secondNumber->realPart * secondNumber->realPart +
         secondNumber->imaginaryPart * secondNumber->imaginaryPart);
+
     double angle1 = atan(firstNumber->imaginaryPart / firstNumber->realPart);
     double angle2 = atan(secondNumber->imaginaryPart / secondNumber->realPart);
 
@@ -122,7 +123,7 @@ void printProduct(ComplexNumber *firstNumber, ComplexNumber *secondNumber)
     double productReal = productMagnitude * cos(productAngle);
     double productImaginary = productMagnitude * sin(productAngle);
 
-    printf("(%d + %di) x (%d + %di) = (%f + %fi)\n",
+    printf("(%f + %fi) x (%f + %fi) = (%f + %fi)\n",
            firstNumber->realPart, firstNumber->imaginaryPart,
            secondNumber->realPart, secondNumber->imaginaryPart,
            productReal, productImaginary);
